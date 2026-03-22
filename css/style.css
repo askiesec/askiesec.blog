@@ -1,0 +1,266 @@
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ── Variables ── */
+:root {
+  --bg: #1a1b26;
+  --bg-code: #16161e;
+  --text: #a9b1d6;
+  --text-head: #c0caf5;
+  --text-body: #9aa5ce;
+  --accent: #7aa2f7;
+  --border: #292e42;
+  --font-mono:
+    "Inconsolata", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  --width: 900px;
+}
+
+/* ── Base ── */
+html {
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 2rem;
+}
+
+/* ── Typography ── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-head);
+  font-weight: bold;
+  border-bottom: 1px solid var(--border);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin: 0.75rem 0;
+  color: var(--text-body);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+blockquote {
+  border-left: 4px solid var(--accent);
+  font-style: italic;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  color: var(--text);
+}
+
+/* ── Code ── */
+code {
+  color: #83a598;
+  background-color: var(--bg-code);
+  padding: 0 4px;
+  font-style: italic;
+  font-family: var(--font-mono);
+}
+
+pre {
+  background-color: var(--bg-code);
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+pre code {
+  all: unset;
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+}
+
+.highlight {
+  background-color: var(--bg-code);
+  margin: 0 1rem;
+}
+
+.highlight pre {
+  background-color: var(--bg-code) !important;
+  padding: 1.5rem;
+}
+
+/* ── Layout ── */
+main {
+  max-width: var(--width);
+  margin: 1rem auto;
+}
+
+.container {
+  max-width: var(--width);
+  margin: 0 auto;
+}
+
+/* ── Navbar ── */
+header {
+  max-width: var(--width);
+  margin: 0.75rem auto;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.navbar__left a {
+  font-weight: bold;
+  color: var(--text-head);
+  font-size: 1rem;
+}
+
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navbar__right a {
+  font-size: 0.9rem;
+  color: var(--accent);
+  transition: opacity 100ms;
+}
+
+.navbar__right a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.nav-sep {
+  color: var(--border);
+  padding: 0 4px;
+  user-select: none;
+}
+
+/* ── Post list ── */
+.post-item {
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.post-item a {
+  color: var(--accent);
+}
+
+/* ── Single post ── */
+article.post {
+  max-width: var(--width);
+  margin: 0 auto;
+}
+
+.post__title {
+  font-size: 1.75rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+
+.post__meta {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin: 0.5rem 0 1.25rem;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.post__description {
+  font-style: italic;
+  color: var(--text);
+  border-left: 4px solid var(--accent);
+  padding-left: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.post__content {
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+.post__content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+}
+
+/* ── Tags ── */
+.tag {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.tag-item {
+  margin-bottom: 0.5rem;
+}
+
+.tag-count {
+  color: var(--text);
+  font-size: 0.85rem;
+  margin-left: 4px;
+}
+
+.tools-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tools-table th {
+  text-align: left;
+  color: var(--text-head);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 12px;
+}
+
+.tools-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-body);
+  vertical-align: top;
+}
+
+.tools-table tr:hover td {
+  background-color: var(--bg-code);
+}
+
+/* ── Footer ── */
+footer {
+  max-width: var(--width);
+  margin: 6rem auto 2rem;
+  text-align: center;
+  color: var(--text-body);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+footer a {
+  color: var(--accent);
+}
