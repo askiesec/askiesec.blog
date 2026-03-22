@@ -1,0 +1,26 @@
+baseURL = 'https://example.org/'
+locale = 'en-us'
+title = 'Askiesec'
+theme = 'garibaldo'
+
+[[menu.main]]
+    name = "Writeups"
+    url = "/writeups"
+    weight = 1
+
+[[menu.main]]
+    name = "Posts"
+    url = "/posts"
+    weight = 2
+
+[[menu.main]]
+    name = "Tools"
+    url = "/tools"
+    weight = 2
+
+
+[markup]
+  [markup.highlight]
+    style = "tokyonight-dark"
+    noClasses = true
+    lineNos = false

@@ -1,0 +1,5 @@
+name = "askiesec"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "Minimal monospace dark theme for security research blogs"
+min_version = "0.110.0"

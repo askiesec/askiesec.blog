@@ -1,0 +1,33 @@
+{{ define "main" }}
+<div class="container">
+  {{ .Content }} {{ $posts := where .Site.RegularPages "Section" "posts" }} {{
+  if $posts }}
+  <h2>Posts</h2>
+  {{ range first 5 $posts }}
+  <div class="post-item">
+    <a href="{{ .Permalink }}"
+      >{{ .Date.Format "2006-01-02" }} &mdash; {{ .Title }}</a
+    >
+    {{ with .Description }}
+    <br /><code>//</code> {{ . }} {{ end }}
+  </div>
+  {{ end }} {{ end }} {{ $tools := where .Site.RegularPages "Section" "tools" }}
+  {{ if $tools }}
+  <h2>Tools</h2>
+  <table class="tools-table">
+    <thead>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $tools }}
+      <tr>
+        <td><a href="{{ .Permalink }}">{{ .Title }}</a></td>
+        </td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+  {{ end }}
+</div>
+{{ end }}

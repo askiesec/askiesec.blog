@@ -1,0 +1,15 @@
+<header>
+  <nav class="navbar">
+    <div class="navbar__left">
+      <a href="/">{{ .Site.Title }}</a>
+    </div>
+    <div class="navbar__right">
+      {{ range .Site.Menus.main }}
+        <a href="{{ .URL }}">{{ .Name }}</a>
+        {{ if not (eq .Weight (len $.Site.Menus.main)) }}
+          <span class="nav-sep">/</span>
+        {{ end }}
+      {{ end }}
+    </div>
+  </nav>
+</header>

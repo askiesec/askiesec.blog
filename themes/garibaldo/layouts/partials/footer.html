@@ -1,0 +1,11 @@
+<footer>
+  <div class="footer__inner">
+    {{ with .Site.Params.footer }}
+      {{ if .url }}
+        <a href="{{ .url }}">{{ .text }}</a>
+      {{ else }}
+        <p>{{ .text }}</p>
+      {{ end }}
+    {{ end }}
+  </div>
+</footer>
