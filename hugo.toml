@@ -1,26 +1,32 @@
-baseURL = 'https://askiesec.blog/'
-locale = 'en-us'
-title = 'Askiesec'
-theme = 'garibaldo'
+baseURL = "https://askiesec.blog/"
+languageCode = "en-us"
+title = "Askiesec"
+theme = "askiesec"
+
+[params]
+author = "askiesec"
+
 
 [[menu.main]]
-    name = "Writeups"
-    url = "/writeups"
-    weight = 1
+  name = "writeups"
+  url = "/writeups/"
+  weight = 1
 
 [[menu.main]]
-    name = "Posts"
-    url = "/posts"
-    weight = 2
+  name = "posts"
+  url = "/posts/"
+  weight = 2
 
 [[menu.main]]
-    name = "Tools"
-    url = "/tools"
-    weight = 2
-
+  name = "tools"
+  url = "/tools/"
+  weight = 3
 
 [markup]
   [markup.highlight]
-    style = "tokyonight-dark"
+    style = "gruvbox"
     noClasses = true
     lineNos = false
+    codeFences = true
+    guessSyntax = true
+    

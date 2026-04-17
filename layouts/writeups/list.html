@@ -11,7 +11,7 @@
 
 {{ if gt (len .Pages) 0 }}
   <div class="tools-list-elegant">
-    {{ range .Pages.ByTitle }}
+    {{ range .Pages.ByDate.Reverse }}
       <article class="tools-list-item">
         <div class="tools-list-main">
           <h2 class="tools-list-title">
@@ -22,27 +22,20 @@
             <p class="tools-list-desc">{{ . }}</p>
           {{ end }}
 
-          {{ with .Params.stack }}
-            <p class="tools-list-stack">{{ delimit . " · " }}</p>
-          {{ end }}
+          <p class="tools-list-stack">
+            {{ .Date.Format "2006-01-02" }}
+            · ~{{ .ReadingTime }} min
+          </p>
         </div>
 
         <div class="tools-list-links">
-          {{ with .Params.github }}
-            <a href="{{ . }}">GitHub</a>
-          {{ end }}
-          {{ with .Params.website }}
-            <a href="{{ . }}">Website</a>
-          {{ end }}
-          {{ with .Params.docs }}
-            <a href="{{ . }}">Docs</a>
-          {{ end }}
+          <a href="{{ .RelPermalink }}">Read</a>
         </div>
       </article>
     {{ end }}
   </div>
 {{ else }}
-  <p class="muted">No tools published yet.</p>
+  <p class="muted">No writeups published yet.</p>
 {{ end }}
 
 {{ end }}

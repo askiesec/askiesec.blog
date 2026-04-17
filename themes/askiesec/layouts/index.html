@@ -1,12 +1,8 @@
 {{ define "main" }}
 
 <section class="home-intro">
-  <p class="whoami">{{ .Site.Params.tagline }}</p>
-
-  <div class="whoami-desc">
-    <p>offensive security, red team, and vulnerability research.</p>
-    <p>notes, experiments, and writeups from practical testing.</p>
-  </div>
+  <p>{{ .Site.Params.tagline }}</p>
+  <p class="muted">{{ .Site.Params.description }}</p>
 </section>
 
 {{ $allPosts := where .Site.RegularPages "Section" "posts" }}
@@ -35,6 +31,30 @@
     </ol>
   {{ else }}
     <p class="muted">No posts yet.</p>
+  {{ end }}
+</section>
+
+<section class="home-section">
+  <h2>Recent notes</h2>
+
+  {{ if gt (len $notes) 0 }}
+    <ol class="post-list">
+      {{ range first 5 $notes }}
+        <li>
+          <a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <div class="meta">
+            {{ .Date.Format "2006-01-02" }}
+            {{ with .Params.entry }} · <span class="entry-kind">{{ . }}</span>{{ end }}
+            · ~{{ .ReadingTime }} min
+          </div>
+          {{ with .Description }}
+            <div class="desc">{{ . }}</div>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ol>
+  {{ else }}
+    <p class="muted">No notes yet.</p>
   {{ end }}
 </section>
 

@@ -1,8 +1,8 @@
 ---
 title: "fred url declutter"
-date: "2026-03-21"
-draft: false
-tags: ["tools", "recon"]
+description: "A small utility to clean and normalize noisy URLs during recon and note-taking."
+github: "https://github.com/askiesec/fred"
+date: 2026-04-17
 ---
 
 # Fred URL Declutter

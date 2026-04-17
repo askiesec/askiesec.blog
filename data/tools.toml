@@ -1,0 +1,4 @@
+[[items]]
+title = "fred"
+url = "https://github.com/askiesec/fred/"
+description = "URL deduplication and noise filtering for recon pipelines."

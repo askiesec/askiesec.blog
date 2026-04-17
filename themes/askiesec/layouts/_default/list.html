@@ -1,0 +1,36 @@
+{{ define "main" }}
+
+<section class="section-intro">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}
+    <div class="section-description">
+      {{ . }}
+    </div>
+  {{ end }}
+</section>
+
+{{ if gt (len .Pages) 0 }}
+  <div class="section-list">
+    {{ range .Pages.ByDate.Reverse }}
+      <article class="section-item">
+        <h2 class="section-item-title">
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </h2>
+
+        <div class="meta">
+          {{ .Date.Format "2006-01-02" }}
+          {{ with .Params.entry }} · <span class="entry-kind">{{ . }}</span>{{ end }}
+          · ~{{ .ReadingTime }} min
+        </div>
+
+        {{ with .Description }}
+          <p class="section-item-desc">{{ . }}</p>
+        {{ end }}
+      </article>
+    {{ end }}
+  </div>
+{{ else }}
+  <p class="muted">Nothing here yet.</p>
+{{ end }}
+
+{{ end }}

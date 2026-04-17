@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+<article>
+  <h1>{{ .Title }}</h1>
+
+  <p class="meta">
+    {{ .Params.author | default .Site.Params.author }} ·
+    {{ .Date.Format "2006-01-02" }}
+    {{ with .Params.entry }} · <span class="entry-kind">{{ . }}</span>{{ end }}
+    · ~{{ .ReadingTime }} min read
+  </p>
+
+  {{ with .Description }}
+    <p class="post-description">{{ . }}</p>
+  {{ end }}
+
+  {{ .Content }}
+</article>
+
+{{ end }}

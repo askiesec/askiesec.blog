@@ -14,3 +14,5 @@ You can find me on [X (formerly Twitter)](https://x.com/askiesec), [LinkedIn](ht
 - [Certified Red Team Analyst (CRTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/697fd16ebb7eab1b1ab0b8a6)
 - [Certified Web Red Team Analyst (WEB-RTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/698fcd4e5f916de8158fb367)
 - [Certified API Red Team Analyst (API-RTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/6950312f6ae7611d64e5add7)
+
+- [Certified Multi-Cloud Red Team Analyst (MCRTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/69dc3abc4b403ba813e923c8)

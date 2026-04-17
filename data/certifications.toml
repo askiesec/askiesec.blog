@@ -1,0 +1,25 @@
+[[items]]
+title = "eJPTv2"
+issuer = "INE Security"
+description = "Junior penetration testing certification with practical offensive foundations."
+
+[[items]]
+title = "CRTA"
+issuer = "CyberWarFare Labs"
+description = "Red team oriented certification focused on realistic attack workflows."
+
+[[items]]
+title = "WEB-RTA"
+issuer = "CyberWarFare Labs"
+description = "Hands-on web application offensive security certification."
+
+[[items]]
+title = "API-RTA"
+issuer = "CyberWarFare Labs"
+description = "Practical API security testing focused on offensive assessment."
+
+[[items]]
+title = "MCRTA"
+issuer = "CyberWarFare Labs"
+description = "Multi-Cloud red team assessment oriented certification."
+
