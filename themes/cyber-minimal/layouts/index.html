@@ -1,0 +1,17 @@
+{{ define "main" }}
+    <div class="content">
+        {{ .Content }}
+    </div>
+    
+    <ul class="post-list-inline" style="margin-top: 2rem;">
+        {{ range (where site.RegularPages "Type" "in" site.Params.mainSections) }}
+        <li class="post-item-inline">
+            <time class="post-date-inline" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "2006-01-02" }}
+            </time>
+            <span class="post-separator"> ➤ </span>
+            <a href="{{ .Permalink }}" class="post-title-inline">{{ .Title }}</a>
+        </li>
+        {{ end }}
+    </ul>
+{{ end }}

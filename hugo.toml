@@ -1,32 +1,33 @@
 baseURL = "https://askiesec.blog/"
 languageCode = "en-us"
 title = "Askiesec"
-theme = "askiesec"
+theme = "cyber-minimal"
 
 [params]
-author = "askiesec"
+  author = "askiesec"
+  mainSections = ["posts", "writeups", "tools"] 
 
+[[menu.main]]
+  name = "home"
+  url = "/"
+  weight = 1
 
 [[menu.main]]
   name = "writeups"
   url = "/writeups/"
-  weight = 1
+  weight = 2
 
 [[menu.main]]
   name = "posts"
   url = "/posts/"
-  weight = 2
-
-[[menu.main]]
-  name = "tools"
-  url = "/tools/"
   weight = 3
 
 [markup]
+  [markup.goldmark.renderer]
+    unsafe = true
   [markup.highlight]
     style = "gruvbox"
     noClasses = true
     lineNos = false
     codeFences = true
     guessSyntax = true
-    

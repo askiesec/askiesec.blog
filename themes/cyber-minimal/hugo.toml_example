@@ -1,0 +1,16 @@
+theme = "cyber-minimal"
+
+# Adicione as seções que você quer listar na página inicial (geralmente 'posts' ou 'blog')
+[params]
+  mainSections = ["posts"]
+  author = "Seu Nome"
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+  weight = 2

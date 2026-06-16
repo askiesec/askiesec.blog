@@ -1,0 +1,23 @@
+{{ define "main" }}
+    <h1 style="margin-top: 2rem; margin-bottom: 2rem;">{{ .Title }}</h1>
+
+    {{ if .Content }}
+    <div class="content" style="margin-bottom: 2rem;">
+        {{ .Content }}
+    </div>
+    {{ end }}
+
+    <ul class="post-list-inline">
+        {{ range .Pages }}
+        <li class="post-item-inline">
+            <time class="post-date-inline" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "2006-01-02" }}
+            </time>
+            
+            <span class="post-separator"> ➤ </span>
+            
+            <a href="{{ .Permalink }}" class="post-title-inline">{{ .Title }}</a>
+        </li>
+        {{ end }}
+    </ul>
+{{ end }}

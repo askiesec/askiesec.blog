@@ -1,6 +1,6 @@
 +++
-title = "Facts"
-date = "2026-03-21"
+title = "Facts - HackTheBox"
+date = "2026-05-21"
 draft = false
 tags = ["writeups", "hackthebox"]
 dificulty = "easy"
@@ -14,11 +14,11 @@ Starting with a full service scan:
 nmap -vv --reason -sCV -T4 -oN outputs/nmap 10.129.19.102
 ```
 
-![alt text]({E559948A-0A15-4AC5-A56C-D9DB341494C4}.png)
+![alt text](E559948A-0A15-4AC5-A56C-D9DB341494C4.png)
 
 The scan revealed a web server. Based on the response headers and SSL certificate, I added `facts.htb` to `/etc/hosts` and browsed to the site.
 
-![alt text]({FDDCBA3A-6A94-4B7E-8624-9A19E33DC3D8}.png)
+![alt text](FDDCBA3A-6A94-4B7E-8624-9A19E33DC3D8.png)
 
 ## Web Enumeration
  
@@ -28,14 +28,14 @@ During manual fuzzing, a request to `/assets/themes/camaleon` leaked the CMS bei
 GET /assets/themes/camaleon HTTP/1.1
 Host: facts.htb
 ```
-![alt text]({8FA6A7FA-F437-4A1E-A9A5-296322E06A3D}.png)
+![alt text](8FA6A7FA-F437-4A1E-A9A5-296322E06A3D.png)
 
 [Camaleon CMS](https://github.com/owen2345/camaleon-cms) is a CMS built on Ruby on Rails. The admin panel is available at the default route: ```http://facts.htb/admin/login```
 
-![alt text]({70DD9665-327C-4A2C-AD00-96390AAA87A4}.png)
+![alt text](70DD9665-327C-4A2C-AD00-96390AAA87A4.png)
 
 I created a regular user account. The footer immediately disclosed the running version: ``` 2.9.0``` 
-![alt text]({8C818134-9415-4059-9822-A3CFCFED9D65}.png)
+![alt text](8C818134-9415-4059-9822-A3CFCFED9D65.png)
 
 ## Exploitation - CVE-2025-2304
  
@@ -64,13 +64,13 @@ I wrote a Python script to automate the full flow (login, CSRF token extraction,
 
 With admin access confirmed, I browsed to the site settings panel: ```http://facts.htb/admin/settings/site```
 
-![alt text]({B456A30A-AFA0-46BA-89A6-157471BA3FDC}.png)
+![alt text](B456A30A-AFA0-46BA-89A6-157471BA3FDC.png)
 
 ## AWS Credential Exposure
  
 The admin settings panel exposed the full AWS configuration of the machine in plaintext, including access keys, secret keys, region, and bucket name.
 
-![alt text]({3FF7F2BE-3347-40B3-9339-065C3A29F475}.png)
+![alt text](3FF7F2BE-3347-40B3-9339-065C3A29F475.png)
 
 ## SSH Key and Credential Cracking
  
@@ -108,16 +108,16 @@ $ chmod 600 id_ed25519
 $ ssh2john id_ed25519 > ssh.hash
 ```
 
-![alt text]({BA0AAFE7-637A-4CC8-A0F4-824812E929DA}.png)
+![alt text](BA0AAFE7-637A-4CC8-A0F4-824812E929DA.png)
 
-![alt text]({BA6F164F-E241-4437-AC1A-B4DD736318F8}.png)
+![alt text](BA6F164F-E241-4437-AC1A-B4DD736318F8.png)
 
 ## Privilege Escalation
 
-![alt text]({3BF905BE-7EB9-459E-9A98-DBB35A8701D2}.png)
+![alt text](3BF905BE-7EB9-459E-9A98-DBB35A8701D2.png)
 
 The user could run `facter` as root without a password. According to [GTFOBins](https://gtfobins.github.io/gtfobins/facter/), `facter` supports loading custom facts from an arbitrary directory via `--custom-dir`. A custom fact is just a Ruby file, so this effectively gives arbitrary code execution as root.
  
 Creating the malicious custom fact in `/dev/shm`:
 
-![alt text]({9940B8BD-0AC6-4EDC-8A59-42EC406A75FF}.png)
+![alt text](9940B8BD-0AC6-4EDC-8A59-42EC406A75FF.png)

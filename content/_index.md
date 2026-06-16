@@ -1,18 +1,18 @@
 ---
-title: whoami
+title: "Home"
 ---
 
-## whoami
+<div style="font-family: var(--font-mono); margin-bottom: 1rem; font-size: 0.95rem;">
+  <span style="font-weight: bold;"></span><span style="color: var(--meta-color);">~</span>$ whoami<span class="cursor-blink"> █</span>
+</div>
 
-Hi, I’m Gabriel, a security enthusiast focused on Red Team and penetration testing. I mainly work on vulnerability discovery, and web security. This blog documents my notes, experiments, and writeups in offensive security.
+Cybersecurity student focusing on vulnerability analysis, incident response, and practical testing.
 
-You can find me on [X (formerly Twitter)](https://x.com/askiesec), [LinkedIn](https://linkedin.com/in/gbralmeida), and [GitHub](https://github.com/askiesec).
+Here you will find my notes, CTF writeups, and experiments.
 
-### Certifications
+<div class="social-links">
+  <a href="https://github.com/askiesec" target="_blank">[github]</a>
+  <a href="https://linkedin.com/in/gbralmeida" target="_blank">[linkedin]</a>
+</div>
 
-- [Junior Penetration Tester (eJPT v2) - INE Security](https://certs.ine.com/e288e994-7685-4891-8ab7-5dfebb7cb82f#acc.2y7t9UXm)
-- [Certified Red Team Analyst (CRTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/697fd16ebb7eab1b1ab0b8a6)
-- [Certified Web Red Team Analyst (WEB-RTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/698fcd4e5f916de8158fb367)
-- [Certified API Red Team Analyst (API-RTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/6950312f6ae7611d64e5add7)
-
-- [Certified Multi-Cloud Red Team Analyst (MCRTA) - Cyberwarfare Labs](https://labs.cyberwarfare.live/credential/achievement/69dc3abc4b403ba813e923c8)
+---

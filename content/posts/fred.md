@@ -5,8 +5,6 @@ github: "https://github.com/askiesec/fred"
 date: 2026-04-17
 ---
 
-# Fred URL Declutter
-
 When doing URL recon for bug bounty, most of your list is noise. Wayback Machine and gau return everything they've ever seen for a domain — scanner payloads, tracking parameters, duplicate endpoints with different IDs, static assets. Before you can do anything useful with that list you need to clean it.
 
 I built fred to handle this step.
