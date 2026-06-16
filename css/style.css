@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap');
+:root {
+    --bg-color: #fafafa;
+    --text-color: #222222;
+    --link-color: #0055cc;
+    --meta-color: #777777;
+    --code-bg: #f1f1f1;
+    --width: 720px;
+    --font-sans: 'Roboto Mono', monospace;
+    --font-mono: 'Roboto Mono', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --link-color: #66b3ff;
+        --meta-color: #aaaaaa;
+        --code-bg: #2d2d2d;
+    }
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    word-wrap: break-word;
+}
+
+header {
+    margin-bottom: 3rem;
+    border-bottom: 1px dashed var(--meta-color);
+    padding-bottom: 1rem;
+}
+
+header a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+nav {
+    margin-top: 0.5rem;
+}
+
+nav a {
+    margin-right: 1rem;
+    font-size: 1rem;
+    color: var(--meta-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+code, pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background-color: var(--code-bg);
+    border-radius: 4px;
+}
+
+code {
+    padding: 0.2em 0.4em;
+}
+
+pre {
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+footer {
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--meta-color);
+    color: var(--meta-color);
+    font-size: 0.9em;
+    text-align: center;
+}
+
+/* --- Estilo da Lista de Posts Inline (Estilo Bear Blog) --- */
+.post-list-inline {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+.post-item-inline {
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
+}
+
+.post-date-inline {
+    font-family: var(--font-mono);
+    color: var(--meta-color);
+    font-size: 0.95rem;
+}
+
+.post-separator {
+    color: var(--meta-color);
+    margin: 0 0.3rem;
+    font-size: 0.9rem;
+}
+
+.post-title-inline {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+    font-weight: normal;
+}
+
+.post-title-inline:hover {
+    color: var(--link-color);
+}
+
+/* --- Efeito de Cursor de Terminal --- */
+.cursor-blink {
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+    font-weight: bold;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border: 1px solid var(--code-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
